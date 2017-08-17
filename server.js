@@ -5,12 +5,52 @@ var path = require('path');
 var app = express();
 app.use(morgan('combined'));
 
+var ArticleOne = {
+    title: 'Article-one | Chetan Kolte',
+    heading: 'Article-one',
+    date: 'Sep 5, 2017',
+    content: `<h1>Hey! This is Article one</h1>
+            <p>The article you are searching for seems to be in this page. That means the article will start here. And hence you can read
+            your article one on this page. This is truely for demonstration purposes and it is striclty instructed to users not to expect any more</p>
+            <p>This is a paragraph if you might notice</p>`
+    
+};
+function createTemplate (data){
+    var title = data.title;
+    var date = data.date;
+    var heading = data.heading;
+    var content = data.content;
+    var htmlTemplate = `<html>
+    <head>
+        <title>
+        ${title}
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
+    <body>
+        <h3>
+        ${heading}
+        </h3>
+        <div>
+        ${date}
+        </div>
+        <div align="center">
+        ${content}
+        </div>
+    </body>
+</html>
+`;
+return htmlTemplate;
+}
+var app = express();
+app.use(morgan('combined'));
+
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
 app.get('/article-one', function(req, res){
-    res.sendFile(path.join(__dirname, 'ui','article-one.html'));
+    res.send(createTemplate(ArticleOne));
 });
 app.get('/article-two', function(req, res){
     res.sendFile(path.join(__dirname, 'ui','article-two.html'));
